@@ -41,6 +41,10 @@ class SesBounceListener
             log_warning('ses', 'SesBounceListener failure: cannot find Entry for message id: ' . $sesBounce->sesMail()->header(Mailer::ID_HEADER));
             return;
         }
+        if ($sesBounce->possibleAutoresponderFailure() && $entry->isDelivered()) {
+            log_warning('mail-bounce', "Auto-responder soft-fail, left as delivered: recipient: {$entry->recipient} | subject: {$entry->subject}");
+            return;
+        }
         $entry = $this->entryRepo->setBounced($entry, $sesBounce->data);
         // Notify sender for hard failures and complaints ---------------------
         $this->notify->handle($entry);
