@@ -46,7 +46,7 @@ class Entry
     public const STATUS_BOUNCE = 'bounce';
     public const STATUS_COMPLAINT = 'complaint';
 
-    public static function statusSelect(string $first = null): array
+    public static function statusSelect(string|null $first = null): array
     {
         $types = [
             Entry::STATUS_SENT      => 'Sent',
